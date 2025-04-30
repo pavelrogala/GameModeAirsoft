@@ -11,7 +11,11 @@ void GameState::onEnter(StateMachine* sm) {
     teamAPoints = 0;
     teamBPoints = 0;
 
-    for (auto& z : zones) z.controller = Team::None;
+    unsigned long now = millis();
+    for (auto& z : zones) {
+        z.controller = Team::None;
+        z.lastUpdateTime = now;
+    }
 
     sm->displayManager.clear();
     sm->displayManager.print("Game Started", 4, 1);
@@ -26,12 +30,13 @@ void GameState::onEnter(StateMachine* sm) {
 
 void GameState::onUpdate(StateMachine* sm) {
     unsigned long now = millis();
-    handleSerialInput();
+    handleSerialInput(now);
+    checkZoneTimeouts(now);
     updatePoints(sm, now);
     updateTimer(sm, now);
 }
 
-void GameState::handleSerialInput() {
+void GameState::handleSerialInput(unsigned long now) {
     if (!Serial.available()) return;
 
     String input = Serial.readStringUntil('\n');
@@ -55,6 +60,8 @@ void GameState::handleSerialInput() {
 
     if (zoneIndex != -1) {
         zones[zoneIndex].controller = team;
+        zones[zoneIndex].lastUpdateTime = now;
+
         Serial.print("Zone ");
         Serial.print((char)('A' + zoneIndex));
         Serial.print(" now controlled by Team ");
@@ -62,8 +69,20 @@ void GameState::handleSerialInput() {
     }
 }
 
+void GameState::checkZoneTimeouts(unsigned long now) {
+    for (int i = 0; i < 4; ++i) {
+        if (zones[i].controller != Team::None &&
+            now - zones[i].lastUpdateTime > ZoneUpdate::TimeoutMs) {
+            Serial.print("Zone ");
+            Serial.print((char)('A' + i));
+            Serial.println(" lost due to inactivity.");
+            zones[i].controller = Team::None;
+        }
+    }
+}
+
 void GameState::updatePoints(StateMachine* sm, unsigned long now) {
-    if (now - lastScoreUpdateMs < 5000) return;
+    if (now - lastScoreUpdateMs < ZoneUpdate::ScoreIntervalMs) return;
     lastScoreUpdateMs = now;
 
     int aZones = 0, bZones = 0;
@@ -72,11 +91,9 @@ void GameState::updatePoints(StateMachine* sm, unsigned long now) {
         else if (z.controller == Team::B) bZones++;
     }
 
-    // Base points: 10 per zone
     int aPoints = aZones * 10;
     int bPoints = bZones * 10;
 
-    // Bonus: +5 for each zone beyond the first
     if (aZones > 1) aPoints += (aZones - 1) * 5;
     if (bZones > 1) bPoints += (bZones - 1) * 5;
 

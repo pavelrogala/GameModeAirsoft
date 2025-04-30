@@ -18,4 +18,9 @@ namespace GameConfig {
     constexpr unsigned long GAME_DURATION_MS = 600000; // 10 minutes
 }
 
+namespace ZoneUpdate {
+    constexpr unsigned long ScoreIntervalMs = 5000;
+    constexpr unsigned long TimeoutMs = 120000;
+}
+
 #endif

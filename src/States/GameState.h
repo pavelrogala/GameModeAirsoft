@@ -14,6 +14,7 @@ private:
 
     struct ZoneControl {
         Team controller = Team::None;
+        unsigned long lastUpdateTime = 0;
     };
 
     unsigned long endTimeMs = 0;
@@ -23,9 +24,10 @@ private:
     int teamBPoints = 0;
     ZoneControl zones[4];
 
-    void handleSerialInput();
+    void handleSerialInput(unsigned long now);
     void updatePoints(StateMachine* sm, unsigned long now);
     void updateTimer(StateMachine* sm, unsigned long now);
+    void checkZoneTimeouts(unsigned long now);
 };
 
 #endif

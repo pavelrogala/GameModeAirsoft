@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "author": "pavelrogala",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-nano", "id": "arduinoNano", "top": 196.8, "left": 47.5, "attrs": {} },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnUp",
+      "top": 83,
+      "left": 57.6,
+      "attrs": { "color": "green", "xray": "1", "label": "UP" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnDown",
+      "top": 131,
+      "left": 57.6,
+      "attrs": { "color": "green", "xray": "1", "label": "DOWN" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnConfirm",
+      "top": 179,
+      "left": -57.6,
+      "attrs": { "color": "green", "xray": "1", "label": "CONFIRM" }
+    },
+    {
+      "type": "wokwi-lcd2004",
+      "id": "gameDisplay",
+      "top": -117.52467955717779,
+      "left": -131.54934268163,
+      "attrs": { "pins": "i2c" }
+    }
+  ],
+  "connections": [
+    [ "btnUp:1.r", "arduinoNano:2", "green", [] ],
+    [ "btnUp:2.r", "arduinoNano:GND", "green", [] ],
+    [ "btnDown:1.r", "arduinoNano:3", "green", [] ],
+    [ "btnDown:2.r", "arduinoNano:GND", "green", [] ],
+    [ "btnConfirm:1.r", "arduinoNano:6", "green", [] ],
+    [ "btnConfirm:2.r", "arduinoNano:GND", "green", [] ],
+    [
+      "gameDisplay:VCC",
+      "arduinoNano:5V",
+      "red",
+      [ "h-16.45", "v-48.78", "h374.4", "v403.2", "h-67.2" ]
+    ],
+    [
+      "gameDisplay:SDA",
+      "arduinoNano:A4",
+      "green",
+      [ "h-26.05", "v-67.88", "h393.6", "v422.4", "h-105.6", "v-38.4" ]
+    ],
+    [
+      "gameDisplay:SCL",
+      "arduinoNano:A5",
+      "blue",
+      [ "h-35.65", "v-86.98", "h412.8", "v441.6", "h-105.6" ]
+    ],
+    [ "gameDisplay1:GND", "arduinoNano:GND", "green", [] ]
+  ],
+  "dependencies": {}
+}

@@ -1,0 +1,1 @@
+// LoRaManager class definition

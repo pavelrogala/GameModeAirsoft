@@ -7,7 +7,7 @@ void SetupState::onEnter(StateMachine* sm) {
     selectedTimeIndex = 0;
     selectedModeIndex = 0;
     sm->displayManager.init();
-    sm->displayManager.print("WELCOME", 6, 1, 2);
+    sm->displayManager.print("WELCOME...", 0, 0, 2);
     sm->displayManager.show();
     delay(1000);
     sm->displayManager.clear();
@@ -46,7 +46,8 @@ void SetupState::onUpdate(StateMachine* sm) {
             stage = MenuStage::Complete;
             sm->displayManager.clear();
             sm->displayManager.print("PRESS CONFIRM", 0, 0);
-            sm->displayManager.print("TO START", 0, 1);
+            sm->displayManager.print("TO START", 0, 10);
+            sm->displayManager.show();
 
             // Store or apply settings here:
             sm->selectedGameTimeMin = timeOptions[selectedTimeIndex];
@@ -76,9 +77,11 @@ void SetupState::displayCurrentOption(StateMachine* sm) {
 
     if (stage == MenuStage::TimeSelect) {
         sm->displayManager.print("SELECT TIME (min):", 0, 0);
-        sm->displayManager.print(String(timeOptions[selectedTimeIndex]), 0, 1);
+        sm->displayManager.print(String(timeOptions[selectedTimeIndex]), 0, 10, 1);
+        sm->displayManager.show();
     } else if (stage == MenuStage::ModeSelect) {
         sm->displayManager.print("SELECT GAME MODE:", 0, 0);
-        sm->displayManager.print(sm->modeOptions[selectedModeIndex], 0, 1);
+        sm->displayManager.print(sm->modeOptions[selectedModeIndex], 0, 10, 1);
+        sm->displayManager.show();
     }
 }

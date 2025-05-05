@@ -18,14 +18,24 @@ void GameState::onEnter(StateMachine* sm) {
     }
 
     sm->displayManager.clear();
-    sm->displayManager.print("Game Started", 4, 1);
+    sm->displayManager.print("3...", 0, 0, 1);
+    sm->displayManager.show();
+    delay(1000);
+    sm->displayManager.clear();
+    sm->displayManager.print("2..", 0, 0, 1);
+    sm->displayManager.show();
+    delay(1000);
+    sm->displayManager.clear();
+    sm->displayManager.print("1.", 0, 0, 1);
+    sm->displayManager.show();
     delay(1000);
     sm->displayManager.clear();
     sm->displayManager.print("Team A: 0pts", 0, 0);
-    sm->displayManager.print("Team B: 0pts", 0, 1);
-    sm->displayManager.print("Time:", 0, 2);
-    sm->displayManager.print("Mode:", 0, 3);
-    sm->displayManager.print(sm->modeOptions[sm->selectedGameMode], 6, 3);
+    sm->displayManager.print("Team B: 0pts", 0, 10);
+    sm->displayManager.print("Time:", 0, 20);
+    sm->displayManager.print("Mode:", 0, 30);
+    sm->displayManager.print(sm->modeOptions[sm->selectedGameMode], 35, 30);
+    sm->displayManager.show();
 }
 
 void GameState::onUpdate(StateMachine* sm) {
@@ -119,7 +129,9 @@ void GameState::updateTimer(StateMachine* sm, unsigned long now) {
 
     char buffer[17];
     snprintf(buffer, sizeof(buffer), "%02d:%02d", minutes, seconds);
-    sm->displayManager.print(buffer, 6, 2);
+    sm->displayManager.fillRect(30, 20, 98, 10);
+    sm->displayManager.print(buffer, 30, 20);
+    sm->displayManager.show();
 }
 
 void GameState::onExit() {

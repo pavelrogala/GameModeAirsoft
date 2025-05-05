@@ -30,11 +30,15 @@ void GameState::onEnter(StateMachine* sm) {
     sm->displayManager.show();
     delay(1000);
     sm->displayManager.clear();
-    sm->displayManager.print("Team A: 0pts", 0, 0);
-    sm->displayManager.print("Team B: 0pts", 0, 10);
-    sm->displayManager.print("Time:", 0, 20);
-    sm->displayManager.print("Mode:", 0, 30);
-    sm->displayManager.print(sm->modeOptions[sm->selectedGameMode], 35, 30);
+    sm->displayManager.print("Team A", 0, 0);
+    sm->displayManager.print("Team B", 67, 0);
+    sm->displayManager.line(0, 10, 128, 10);
+    sm->displayManager.line(63, 0, 63, 30);
+    sm->displayManager.line(0, 30, 128, 30);
+    sm->displayManager.print("0", 0, 17);
+    sm->displayManager.print("0", 67, 17);
+    //sm->displayManager.print("Mode:", 0, 30);
+    //sm->displayManager.print(sm->modeOptions[sm->selectedGameMode], 35, 30);
     sm->displayManager.show();
 }
 
@@ -111,11 +115,12 @@ void GameState::updatePoints(StateMachine* sm, unsigned long now) {
     teamBPoints += bPoints;
 
     char bufferA[17], bufferB[17];
-    snprintf(bufferA, sizeof(bufferA), "Team A: %dpts", teamAPoints);
-    snprintf(bufferB, sizeof(bufferB), "Team B: %dpts", teamBPoints);
-    sm->displayManager.clearSection(0, 0, 128, 20);
-    sm->displayManager.print(bufferA, 0, 0);
-    sm->displayManager.print(bufferB, 0, 10);
+    snprintf(bufferA, sizeof(bufferA), "%d", teamAPoints);
+    snprintf(bufferB, sizeof(bufferB), "%d", teamBPoints);
+    sm->displayManager.clearSection(0, 16, 40, 10);
+    sm->displayManager.clearSection(66, 16, 40, 10);
+    sm->displayManager.print(bufferA, 0, 17);
+    sm->displayManager.print(bufferB, 67, 17);
     sm->displayManager.show();
 }
 
@@ -131,8 +136,8 @@ void GameState::updateTimer(StateMachine* sm, unsigned long now) {
 
     char buffer[17];
     snprintf(buffer, sizeof(buffer), "%02d:%02d", minutes, seconds);
-    sm->displayManager.clearSection(30, 20, 98, 10);
-    sm->displayManager.print(buffer, 30, 20);
+    sm->displayManager.clearSection(0, 35, 128, 29);
+    sm->displayManager.print(buffer, 35, 40, 2);
     sm->displayManager.show();
 }
 

@@ -45,3 +45,7 @@ void DisplayManager::show() {
 void DisplayManager::clearSection(int x, int y, int w, int h) {
     display.fillRect(x, y, w, h, SSD1306_BLACK);
 }
+
+void DisplayManager::line(int x0, int y0, int x1, int y1) {
+    display.drawLine(x0, y0, x1, y1, SSD1306_WHITE);
+}

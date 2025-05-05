@@ -129,7 +129,7 @@ void GameState::updateTimer(StateMachine* sm, unsigned long now) {
 
     char buffer[17];
     snprintf(buffer, sizeof(buffer), "%02d:%02d", minutes, seconds);
-    sm->displayManager.fillRect(30, 20, 98, 10);
+    sm->displayManager.clearSection(30, 20, 98, 10);
     sm->displayManager.print(buffer, 30, 20);
     sm->displayManager.show();
 }

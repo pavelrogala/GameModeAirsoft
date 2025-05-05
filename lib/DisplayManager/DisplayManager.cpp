@@ -42,6 +42,6 @@ void DisplayManager::show() {
     display.display();
 }
 
-void DisplayManager::fillRect(int x, int y, int w, int h) {
+void DisplayManager::clearSection(int x, int y, int w, int h) {
     display.fillRect(x, y, w, h, SSD1306_BLACK);
 }

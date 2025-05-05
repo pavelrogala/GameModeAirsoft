@@ -11,7 +11,7 @@ State* StateMachine::getSetupState() {
 }
 
 StateMachine::StateMachine()
-    : confirmButton(Button::CONFIRM, true), upButton(Button::UP, true), downButton(Button::DOWN, true), displayManager(0x27, 20, 4) {
+    : confirmButton(Button::CONFIRM, true), upButton(Button::UP, true), downButton(Button::DOWN, true), displayManager() {
         setupState = new SetupState();  // ← allocate your states
         gameState = new GameState();
     }

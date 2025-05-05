@@ -7,7 +7,8 @@ void SetupState::onEnter(StateMachine* sm) {
     selectedTimeIndex = 0;
     selectedModeIndex = 0;
     sm->displayManager.init();
-    sm->displayManager.print("WELCOME", 6, 1);
+    sm->displayManager.print("WELCOME", 6, 1, 2);
+    sm->displayManager.show();
     delay(1000);
     sm->displayManager.clear();
     displayCurrentOption(sm);

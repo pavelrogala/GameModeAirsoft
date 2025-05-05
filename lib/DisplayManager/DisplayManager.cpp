@@ -1,30 +1,43 @@
 #include "DisplayManager.h"
 
-DisplayManager::DisplayManager(uint8_t address, uint8_t cols, uint8_t rows)
-    : lcd(address, cols, rows), cols(cols), rows(rows) {}
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_RESET    -1  // Reset pin # (or -1 if sharing Arduino reset)
 
-void DisplayManager::init() {
-    lcd.init();
-    lcd.backlight();
-    lcd.clear();
+DisplayManager::DisplayManager()
+    : display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET) {}
+
+bool DisplayManager::init() {
+    if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+        return false;
+    }
+    display.clearDisplay();
+    display.display();
+    return true;
 }
 
 void DisplayManager::clear() {
-    lcd.clear();
+    display.clearDisplay();
 }
 
-void DisplayManager::print(const String& text, uint8_t col, uint8_t row) {
-    lcd.setCursor(col, row);
-    lcd.print(text);
+void DisplayManager::print(const String& text, int x, int y, int textSize) {
+    display.setTextSize(textSize);
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(x, y);
+    display.print(text);
 }
 
-void DisplayManager::printCentered(const String& text, uint8_t row) {
-    int padding = max((int)(cols - text.length()) / 2, 0);
-    lcd.setCursor(padding, row);
-    lcd.print(text);
+void DisplayManager::drawCenteredText(const String& text, int y, int textSize) {
+    display.setTextSize(textSize);
+    display.setTextColor(SSD1306_WHITE);
+    int16_t x1, y1;
+    uint16_t w, h;
+    display.getTextBounds(text, 0, 0, &x1, &y1, &w, &h);
+    int x = (SCREEN_WIDTH - w) / 2;
+    display.setCursor(x, y);
+    display.print(text);
 }
 
-void DisplayManager::setBacklight(bool on) {
-    if (on) lcd.backlight();
-    else lcd.noBacklight();
+void DisplayManager::show() {
+    display.display();
 }

@@ -1,22 +1,20 @@
 #ifndef DISPLAY_MANAGER_H
 #define DISPLAY_MANAGER_H
 
-#include <Arduino.h>
-#include <LiquidCrystal_I2C.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
 
 class DisplayManager {
 public:
-    DisplayManager(uint8_t address = 0x27, uint8_t cols = 20, uint8_t rows = 4);
-
-    void init();
+    DisplayManager();
+    bool init();
     void clear();
-    void print(const String& text, uint8_t col = 0, uint8_t row = 0);
-    void printCentered(const String& text, uint8_t row = 0);
-    void setBacklight(bool on);
+    void print(const String& text, int x = 0, int y = 0, int textSize = 1);
+    void drawCenteredText(const String& text, int y = 0, int textSize = 1);
+    void show();
 
 private:
-    LiquidCrystal_I2C lcd;
-    uint8_t cols, rows;
+    Adafruit_SSD1306 display;
 };
 
 #endif

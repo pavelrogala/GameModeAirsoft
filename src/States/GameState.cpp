@@ -113,8 +113,10 @@ void GameState::updatePoints(StateMachine* sm, unsigned long now) {
     char bufferA[17], bufferB[17];
     snprintf(bufferA, sizeof(bufferA), "Team A: %dpts", teamAPoints);
     snprintf(bufferB, sizeof(bufferB), "Team B: %dpts", teamBPoints);
+    sm->displayManager.clearSection(0, 0, 128, 20);
     sm->displayManager.print(bufferA, 0, 0);
-    sm->displayManager.print(bufferB, 0, 1);
+    sm->displayManager.print(bufferB, 0, 10);
+    sm->displayManager.show();
 }
 
 void GameState::updateTimer(StateMachine* sm, unsigned long now) {

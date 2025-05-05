@@ -12,7 +12,7 @@ public:
     void print(const String& text, int x = 0, int y = 0, int textSize = 1);
     void drawCenteredText(const String& text, int y = 0, int textSize = 1);
     void show();
-    void fillRect(int x, int y, int w, int h);
+    void clearSection(int x, int y, int w, int h);
 
 private:
     Adafruit_SSD1306 display;

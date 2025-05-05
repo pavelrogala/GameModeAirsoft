@@ -9,21 +9,21 @@
       "id": "btn1",
       "top": 121.4,
       "left": 278.4,
-      "attrs": { "color": "green", "xray": "1" }
+      "attrs": { "color": "blue", "xray": "1", "key": "1" }
     },
     {
       "type": "wokwi-pushbutton-6mm",
       "id": "btn2",
       "top": 74.6,
       "left": 297.6,
-      "attrs": { "color": "green", "xray": "1" }
+      "attrs": { "color": "red", "xray": "1", "key": "2"  }
     },
     {
       "type": "wokwi-pushbutton-6mm",
       "id": "btn3",
       "top": 45.8,
       "left": 297.6,
-      "attrs": { "color": "green", "xray": "1" }
+      "attrs": { "color": "red", "xray": "1", "key": "3"  }
     },
     {
       "type": "board-ssd1306",

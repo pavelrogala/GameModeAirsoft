@@ -1,64 +1,51 @@
 {
   "version": 1,
-  "author": "pavelrogala",
+  "author": "Pavel Rogala",
   "editor": "wokwi",
   "parts": [
-    { "type": "wokwi-arduino-nano", "id": "arduinoNano", "top": 196.8, "left": 47.5, "attrs": {} },
-    {
-      "type": "wokwi-pushbutton",
-      "id": "btnUp",
-      "top": 83,
-      "left": 57.6,
-      "attrs": { "color": "green", "xray": "1", "label": "UP" }
-    },
-    {
-      "type": "wokwi-pushbutton",
-      "id": "btnDown",
-      "top": 131,
-      "left": 57.6,
-      "attrs": { "color": "green", "xray": "1", "label": "DOWN" }
-    },
-    {
-      "type": "wokwi-pushbutton",
-      "id": "btnConfirm",
-      "top": 179,
-      "left": -57.6,
-      "attrs": { "color": "green", "xray": "1", "label": "CONFIRM" }
-    },
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": -19.2, "left": 110.44, "attrs": {} },
     {
       "type": "wokwi-lcd2004",
-      "id": "gameDisplay",
-      "top": -117.52467955717779,
-      "left": -131.54934268163,
+      "id": "lcd1",
+      "top": 246.4,
+      "left": 15.2,
       "attrs": { "pins": "i2c" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": 121.4,
+      "left": 278.4,
+      "attrs": { "color": "green", "xray": "1" }
+    },
+    {
+      "type": "wokwi-pushbutton-6mm",
+      "id": "btn2",
+      "top": 74.6,
+      "left": 297.6,
+      "attrs": { "color": "green", "xray": "1" }
+    },
+    {
+      "type": "wokwi-pushbutton-6mm",
+      "id": "btn3",
+      "top": 45.8,
+      "left": 297.6,
+      "attrs": { "color": "green", "xray": "1" }
     }
   ],
   "connections": [
-    [ "btnUp:1.r", "arduinoNano:2", "green", [] ],
-    [ "btnUp:2.r", "arduinoNano:GND", "green", [] ],
-    [ "btnDown:1.r", "arduinoNano:3", "green", [] ],
-    [ "btnDown:2.r", "arduinoNano:GND", "green", [] ],
-    [ "btnConfirm:1.r", "arduinoNano:6", "green", [] ],
-    [ "btnConfirm:2.r", "arduinoNano:GND", "green", [] ],
-    [
-      "gameDisplay:VCC",
-      "arduinoNano:5V",
-      "red",
-      [ "h-16.45", "v-48.78", "h374.4", "v403.2", "h-67.2" ]
-    ],
-    [
-      "gameDisplay:SDA",
-      "arduinoNano:A4",
-      "green",
-      [ "h-26.05", "v-67.88", "h393.6", "v422.4", "h-105.6", "v-38.4" ]
-    ],
-    [
-      "gameDisplay:SCL",
-      "arduinoNano:A5",
-      "blue",
-      [ "h-35.65", "v-86.98", "h412.8", "v441.6", "h-105.6" ]
-    ],
-    [ "gameDisplay1:GND", "arduinoNano:GND", "green", [] ]
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "lcd1:SDA", "esp:21", "green", [ "h-9.6", "v-67", "h211.2", "v-172.8" ] ],
+    [ "lcd1:SCL", "esp:22", "green", [ "h-19.2", "v-86.1", "h230.4", "v-192" ] ],
+    [ "lcd1:VCC", "esp:5V", "red", [ "h-28.8", "v-9.5" ] ],
+    [ "lcd1:GND", "esp:GND.1", "black", [ "h-38.4", "v-105.6", "h124.8", "v-38.4" ] ],
+    [ "btn1:1.l", "esp:17", "green", [ "h-28.8", "v-28.8" ] ],
+    [ "btn1:2.l", "esp:GND.3", "black", [ "h-38.4", "v-86.2" ] ],
+    [ "btn3:1.l", "esp:19", "green", [ "h-38.4", "v28.8" ] ],
+    [ "btn2:1.l", "esp:18", "green", [ "h-28.8", "v9.6" ] ],
+    [ "btn3:2.l", "esp:GND.3", "black", [ "h0" ] ],
+    [ "btn2:2.l", "esp:GND.3", "black", [ "h-57.6", "v-28.4" ] ]
   ],
   "dependencies": {}
 }

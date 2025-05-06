@@ -43,8 +43,7 @@ void SetupState::onUpdate(StateMachine* sm) {
         } else if (stage == MenuStage::ModeSelect) {
             stage = MenuStage::Complete;
             sm->displayManager.clear();
-            sm->displayManager.print("PRESS CONFIRM", 0, 0);
-            sm->displayManager.print("TO START", 0, 10);
+            sm->displayManager.print("PRESS * TO START", 0, 0);
             sm->displayManager.show();
 
             // Store or apply settings here:

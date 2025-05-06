@@ -3,6 +3,7 @@
 
 #include "DisplayManager.h"
 #include "ButtonManager.h"
+#include "KeypadManager.h"
 #include "State.h"
 #include "Config.h"
 
@@ -16,9 +17,7 @@ public:
     void update();
     void changeState(State* newState);
     DisplayManager displayManager;
-    ButtonManager confirmButton;
-    ButtonManager upButton;
-    ButtonManager downButton;
+    KeypadManager keypadManager;
 
     State* getSetupState();
     State* getGameState();

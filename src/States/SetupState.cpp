@@ -7,6 +7,7 @@ void SetupState::onEnter(StateMachine* sm) {
     selectedTimeIndex = 0;
     selectedModeIndex = 0;
     sm->displayManager.init();
+    sm->keypadManager.begin();
     sm->displayManager.print("WELCOME...", 0, 0, 2);
     sm->displayManager.show();
     delay(1000);
@@ -15,27 +16,24 @@ void SetupState::onEnter(StateMachine* sm) {
 }
 
 void SetupState::onUpdate(StateMachine* sm) {
-    ButtonManager& up = sm->upButton;
-    ButtonManager& down = sm->downButton;
-    ButtonManager& confirm = sm->confirmButton;
-
     static bool confirmed = false;
 
-    // Navigation
-    if (up.justPressed() || down.justPressed()) {
-        int direction = up.justPressed() ? -1 : 1;
-    
+    char key = sm->keypadManager.getKey();
+
+    if (key == 'A' || key == 'B') {
+        int direction = (key == 'A') ? -1 : 1;
+
         if (stage == MenuStage::TimeSelect) {
             selectedTimeIndex = (selectedTimeIndex + direction + 3) % 3;
         } else if (stage == MenuStage::ModeSelect) {
             selectedModeIndex = (selectedModeIndex + direction + 2) % 2;
         }
-    
+
         displayCurrentOption(sm);
     }
 
-    // Long press to confirm
-    if (confirm.heldFor(1000) && !confirmed) {
+    // Check for * press (confirm action)
+    if (key == '*' && !confirmed) {
         confirmed = true;
 
         if (stage == MenuStage::TimeSelect) {
@@ -63,9 +61,12 @@ void SetupState::onUpdate(StateMachine* sm) {
         }
     }
 
-    if (confirm.justReleased()) {
-        confirmed = false;  // reset long-press detection
+    // Reset confirmation flag when * is released
+    if (key != '*' && confirmed) {
+        confirmed = false;
     }
+
+
 }
 
 void SetupState::onExit() {

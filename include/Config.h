@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 namespace Button {
-    constexpr uint8_t CONFIRM = 17;
+    constexpr uint8_t CONFIRM = 5;
     constexpr uint8_t UP = 19;
     constexpr uint8_t DOWN = 18;
 }

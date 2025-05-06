@@ -11,7 +11,7 @@ State* StateMachine::getSetupState() {
 }
 
 StateMachine::StateMachine()
-    : confirmButton(Button::CONFIRM, true), upButton(Button::UP, true), downButton(Button::DOWN, true), displayManager() {
+    : displayManager(), keypadManager() {
         setupState = new SetupState();  // ← allocate your states
         gameState = new GameState();
     }
@@ -21,9 +21,7 @@ void StateMachine::begin() {
 }
 
 void StateMachine::update() {
-    confirmButton.update();
-    upButton.update();
-    downButton.update();
+    keypadManager.update();
     if (currentState) {
         currentState->onUpdate(this);
     }

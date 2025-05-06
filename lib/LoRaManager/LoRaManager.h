@@ -5,7 +5,7 @@
 
 class LoRaManager {
 public:
-    LoRaManager(long frequency = 915E6);  // Default to 915 MHz
+    LoRaManager(long frequency = 433E6);  // Default to 915 MHz
     bool begin();
     void sendMessage(const String& message);
     bool receiveMessage(String& outMessage);

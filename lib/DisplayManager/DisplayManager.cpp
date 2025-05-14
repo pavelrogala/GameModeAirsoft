@@ -1,13 +1,20 @@
 #include "DisplayManager.h"
 
+// Define the display width and height
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
-#define OLED_RESET    -1  // Reset pin # (or -1 if sharing Arduino reset)
+
+// Define the custom pins
+#define OLED_DC_PIN   -1   // Data/Command pin
+#define OLED_CS_PIN   -1  // Chip Select pin
+#define OLED_RST_PIN  -1  // No Reset pin (set to -1 if your display doesn't have one)
+
 
 DisplayManager::DisplayManager()
-    : display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET) {}
+    : display(SCREEN_WIDTH, SCREEN_HEIGHT, &SPI, OLED_DC_PIN, OLED_RST_PIN, OLED_CS_PIN) {}
 
 bool DisplayManager::init() {
+    SPI.begin(22,-1,21,-1);
     if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
         return false;
     }

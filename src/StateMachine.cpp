@@ -11,7 +11,7 @@ State* StateMachine::getSetupState() {
 }
 
 StateMachine::StateMachine()
-    : displayManager(), keypadManager() {
+    : displayManager(), keypadManager(), loraManager() {
         setupState = new SetupState();  // ← allocate your states
         gameState = new GameState();
     }

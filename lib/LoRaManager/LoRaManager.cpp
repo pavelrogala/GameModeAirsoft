@@ -2,9 +2,10 @@
 #include <SPI.h>
 #include <LoRa.h>
 
-#define LORA_SS 18
+#define LORA_SS 5
 #define LORA_RST 14
-#define LORA_DIO0 26
+#define LORA_DIO0 2
+
 
 LoRaManager::LoRaManager(long frequency)
     : _frequency(frequency) {}
@@ -16,6 +17,9 @@ bool LoRaManager::begin() {
         Serial.println("LoRa init failed. Check your connections.");
         return false;
     }
+
+    // Set sync word to ensure you're not receiving messages from other LoRa modules
+    LoRa.setSyncWord(0xF3);
 
     Serial.println("LoRa init succeeded.");
     return true;

@@ -1,5 +1,6 @@
 #include "GameState.h"
 #include <Arduino.h>
+#include <regex>
 
 void GameState::onEnter(StateMachine* sm) {
     Serial.println("[GameState] Entering game state.");
@@ -17,6 +18,7 @@ void GameState::onEnter(StateMachine* sm) {
         z.lastUpdateTime = now;
     }
 
+    sm->loraManager.begin();
     sm->displayManager.clear();
     sm->displayManager.print("3...", 0, 0, 1);
     sm->displayManager.show();
@@ -48,6 +50,56 @@ void GameState::onUpdate(StateMachine* sm) {
     checkZoneTimeouts(now);
     updatePoints(sm, now);
     updateTimer(sm, now);
+}
+
+void GameState::handleLoraInput(unsigned long now, StateMachine* sm) {
+    String loraPacket = ""; // Variable to store the received message
+
+    if(sm->loraManager.receiveMessage(loraPacket)) {
+        loraPacket.trim(); // Trim any leading or trailing whitespace
+
+        // Define the regex pattern for "Zone:{z},Team:{t}"
+        const char* pattern = "^Zone:[A-D],Team:[A-B]$";
+
+        // Use std::regex for pattern matching
+        std::regex regex(pattern);
+        
+        if (std::regex_match(loraPacket.c_str(), regex)) {
+            // Extract zone and team from the message
+            int zoneIndex = -1;
+            Team team = Team::None;
+
+            // Extract zone value
+            int zonePos = loraPacket.indexOf("Zone:") + 5;  // Skip the "Zone:" part
+            if (zonePos != -1 && loraPacket.length() > zonePos) {
+                char z = loraPacket.charAt(zonePos);  // Get the character for the zone
+                if (z >= 'A' && z <= 'D') zoneIndex = z - 'A';  // 'A' -> 0, 'B' -> 1, 'C' -> 2, 'D' -> 3
+            }
+
+            // Extract team value
+            int teamPos = loraPacket.indexOf("Team:") + 5;  // Skip the "Team:" part
+            if (teamPos != -1 && loraPacket.length() > teamPos) {
+                char t = loraPacket.charAt(teamPos);  // Get the character for the team
+                if (t == 'A') team = Team::A;
+                else if (t == 'B') team = Team::B;
+            }
+
+            // If we found a valid zone index, update the zone's controller
+            if (zoneIndex != -1) {
+                zones[zoneIndex].controller = team;
+                zones[zoneIndex].lastUpdateTime = now;
+
+                // Print the updated zone and team information
+                Serial.print("Zone ");
+                Serial.print((char)('A' + zoneIndex)); // Print zone character (A, B, C, D)
+                Serial.print(" now controlled by Team ");
+                Serial.println(team == Team::A ? "A" : (team == Team::B ? "B" : "None"));
+            }
+        } else {
+            // If the packet does not match the expected format, print an error
+            Serial.println("Invalid LoRa packet format.");
+        }
+    }
 }
 
 void GameState::handleSerialInput(unsigned long now) {

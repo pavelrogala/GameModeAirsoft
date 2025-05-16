@@ -4,6 +4,7 @@
 #include "DisplayManager.h"
 #include "ButtonManager.h"
 #include "KeypadManager.h"
+#include "LoRaManager.h"
 #include "State.h"
 #include "Config.h"
 
@@ -18,6 +19,7 @@ public:
     void changeState(State* newState);
     DisplayManager displayManager;
     KeypadManager keypadManager;
+    LoRaManager loraManager;
 
     State* getSetupState();
     State* getGameState();

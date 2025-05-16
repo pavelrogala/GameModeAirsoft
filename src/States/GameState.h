@@ -24,6 +24,7 @@ private:
     int teamBPoints = 0;
     ZoneControl zones[4];
 
+    void handleLoraInput(unsigned long now,StateMachine* sm);
     void handleSerialInput(unsigned long now);
     void updatePoints(StateMachine* sm, unsigned long now);
     void updateTimer(StateMachine* sm, unsigned long now);

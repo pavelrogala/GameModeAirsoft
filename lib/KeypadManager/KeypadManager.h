@@ -21,7 +21,7 @@ private:
     {'*', '0', '#', 'D'}
   };
 
-  byte rowPins[ROWS] = {32, 33, 27, 14};   // Digital IO capable
+  byte rowPins[ROWS] = {32, 33, 27, 12};   // Digital IO capable
   byte colPins[COLS] = {16, 17, 13, 25};   // 34/35 are Input-only pins on ESP32
 
   Keypad keypad;

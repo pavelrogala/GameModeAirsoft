@@ -46,7 +46,8 @@ void GameState::onEnter(StateMachine* sm) {
 
 void GameState::onUpdate(StateMachine* sm) {
     unsigned long now = millis();
-    handleSerialInput(now); // This will be replaced with LoRa or radio comms to accept messages from peripheral devices
+    handleLoraInput(now, sm);
+    //handleSerialInput(now); // This will be replaced with LoRa or radio comms to accept messages from peripheral devices
     checkZoneTimeouts(now);
     updatePoints(sm, now);
     updateTimer(sm, now);

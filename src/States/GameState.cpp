@@ -49,7 +49,9 @@ void GameState::onUpdate(StateMachine* sm) {
     handleLoraInput(now, sm);
     //handleSerialInput(now); // This will be replaced with LoRa or radio comms to accept messages from peripheral devices
     checkZoneTimeouts(now);
-    updatePoints(sm, now);
+    if (now < endTimeMs) {
+        updatePoints(sm, now);
+    }
     updateTimer(sm, now);
 }
 
